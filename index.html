@@ -48,6 +48,7 @@
             img.addEventListener('click', () => {
                 count++;
                 countDisplay.textContent = `Fried chickens: ${Math.floor(count)}`;
+                updateButtonStates(); // Update button state after clicking
             });
 
             // Handle buying clickers
@@ -60,7 +61,9 @@
                     countDisplay.textContent = `Fried chickens: ${Math.floor(count)}`;
                     clickerCountDisplay.textContent = `Clickers: ${clickerCount}`;
                     friedChickenPerSecondDisplay.textContent = `Fried chickens per second: ${friedChickenPerSecond.toFixed(1)}`;
-                    updateButtonStates();
+                    updateButtonStates(); // Update button state after purchase
+                } else {
+                    alert('Not enough fried chickens to buy a clicker!');
                 }
             });
 
@@ -74,7 +77,7 @@
                     countDisplay.textContent = `Fried chickens: ${Math.floor(count)}`;
                     clickerCountDisplay.textContent = `Clickers: ${clickerCount}`;
                     friedChickenPerSecondDisplay.textContent = `Fried chickens per second: ${friedChickenPerSecond.toFixed(1)}`;
-                    updateButtonStates();
+                    updateButtonStates(); // Update button state after selling
                 }
             });
 
