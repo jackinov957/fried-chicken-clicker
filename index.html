@@ -9,12 +9,33 @@
 <body>
     <h1>Click the Fried Chicken!</h1>
     <img id="fried-chicken-img" src="friedchicken.png" alt="Fried Chicken">
+
     <p id="count">Fried chickens: 0</p>
     <p id="clicker-count">Clickers: 0</p>
     <p id="fried-chicken-per-second">Fried chickens per second: 0.0</p>
-    <button id="buy-clicker" class="button">Buy Clicker</button>
-    <button id="sell-clicker" class="button">Sell Clicker</button>
-    <button id="double-production" class="button" style="display: none;">Double Production</button>
+
+    <!-- Tabbed navigation -->
+    <div class="tabs">
+        <button class="tab-button active" data-tab="main">Main</button>
+        <button class="tab-button" data-tab="upgrades">Upgrades</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="main" class="tab-content active">
+        <button id="buy-clicker" class="button">Buy Clicker</button>
+        <button id="sell-clicker" class="button">Sell Clicker</button>
+
+        <!-- Double Production Button with Image -->
+        <div class="double-production-container">
+            <img src="doubleproduction1.png" alt="Double Production Icon">
+            <button id="double-production" class="button" style="display: none;">Double Production</button>
+        </div>
+    </div>
+
+    <div id="upgrades" class="tab-content">
+        <h2>Upgrades Purchased</h2>
+        <ul id="upgrades-list"></ul>
+    </div>
 
     <script src="script.js"></script>
 </body>
