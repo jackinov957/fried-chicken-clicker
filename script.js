@@ -6,14 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const buyClickerButton = document.getElementById('buy-clicker');
     const sellClickerButton = document.getElementById('sell-clicker');
     const doubleProductionButton = document.getElementById('double-production');
+    const doubleProductionImg = document.getElementById('double-production-img');
+    const upgradesList = document.getElementById('upgrades-list');
 
     let count = 0;
     let clickerCount = 0;
     let friedChickenPerSecond = 0;
     let friedChickenPerClick = 1; // Initial fried chickens per click
+    let doubleProductionPurchased = false; // Track if the upgrade has been purchased
     const baseClickerCost = 10; // Initial cost of a clicker
     const clickerGenerationRate = 0.1; // Fried chickens per second from each clicker
     const sellPriceMultiplier = 0.75; // Selling price multiplier
+    const doubleProductionCost = 50; // Cost of the Double Production upgrade
+
+    const upgrades = []; // Array to store purchased upgrades
 
     // Function to calculate clicker cost
     function calculateClickerCost() {
@@ -26,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         buyClickerButton.textContent = `Buy Clicker (${clickerCost} Fried Chickens)`;
         buyClickerButton.disabled = count < clickerCost;
         sellClickerButton.disabled = clickerCount === 0;
-        doubleProductionButton.style.display = clickerCount >= 5 ? 'block' : 'none';
+        doubleProductionButton.style.display = count >= doubleProductionCost && !doubleProductionPurchased ? 'block' : 'none';
     }
 
     // Handle image click
@@ -68,11 +74,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle doubling production
     doubleProductionButton.addEventListener('click', () => {
-        friedChickenPerClick *= 2;
-        friedChickenPerSecond *= 2;
-        friedChickenPerSecondDisplay.textContent = `Fried chickens per second: ${friedChickenPerSecond.toFixed(1)}`;
-        doubleProductionButton.style.display = 'none'; // Hide button after doubling
+        if (count >= doubleProductionCost && !doubleProductionPurchased) {
+            count -= doubleProductionCost;
+            friedChickenPerClick *= 2;
+            friedChickenPerSecond *= 2;
+            doubleProductionPurchased = true;
+
+            // Update button state
+            doubleProductionButton.style.display = 'none';
+            friedChickenPerSecondDisplay.textContent = `Fried chickens per second: ${friedChickenPerSecond.toFixed(1)}`;
+
+            // Add to upgrades list
+            upgrades.push('Double Production');
+            displayUpgrades();
+        }
     });
+
+    // Function to display purchased upgrades
+    function displayUpgrades() {
+        upgradesList.innerHTML = '';
+        upgrades.forEach(upgrade => {
+            const li = document.createElement('li');
+            li.textContent = upgrade;
+            upgradesList.appendChild(li);
+        });
+    }
 
     // Function to update fried chicken count every second based on clicker count
     setInterval(() => {
@@ -82,4 +108,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial button states update
     updateButtonStates();
+
+    // Tab functionality
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(button.dataset.tab).classList.add('active');
+        });
+    });
 });
+
